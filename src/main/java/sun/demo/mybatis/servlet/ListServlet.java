@@ -9,6 +9,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
+
+import com.google.common.base.Strings;
 
 /**
  *
@@ -19,12 +22,32 @@ public class ListServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //super.doGet(req, resp);
+        req.setCharacterEncoding("utf-8");
+        resp.setCharacterEncoding("utf-8");
         try {
+            String command = req.getParameter("command");
+            String description = req.getParameter("description");
+            req.setAttribute("command",command);
+            req.setAttribute("description",description);
             Class.forName("com.mysql.jdbc.Driver");
-            Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/mybatis_demo",
+            Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/mybatis_demo?characterEncoding=utf8",
                     "root", "123456");
-            String sql = "select ID, COMMAND, DESCRIPTION,CONTENT FROM message";
-            PreparedStatement statement = connection.prepareStatement(sql);
+            StringBuilder sql = new StringBuilder("select ID, COMMAND, DESCRIPTION,CONTENT FROM message where 1=1");
+
+            List<String> paramList = new ArrayList<String>();
+
+            if(!Strings.isNullOrEmpty(command)){
+                sql.append(" and COMMAND=?");
+                paramList.add(command);
+            }
+            if(!Strings.isNullOrEmpty(description)){
+                sql.append(" and DESCRIPTION like '%' ? '%'");
+                paramList.add(description);
+            }
+            PreparedStatement statement = connection.prepareStatement(sql.toString());
+            for (int i = 0; i < paramList.size(); i++) {
+                statement.setString(i+1,paramList.get(i));
+            }
             ResultSet resultSet = statement.executeQuery();
             ArrayList<Message> list = new ArrayList<Message>();
             while(resultSet.next()){
@@ -37,6 +60,7 @@ public class ListServlet extends HttpServlet {
             }
             System.out.println("msglist.size="+list.size());
             req.setAttribute("msgList",list);
+
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (SQLException e) {

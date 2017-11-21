@@ -6,10 +6,10 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<meta http-equiv="X-UA-Compatible"content="IE=9; IE=8; IE=7; IE=EDGE" />
 		<title>内容列表页面-SUN</title>
-		<link href="css\all.css" rel="stylesheet" type="text/css" />
+		<link href="\css\all.css" rel="stylesheet" type="text/css" />
 	</head>
 	<body style="background: #e1e9eb;">
-		<form action="" id="mainForm" method="post">
+		<form action="list.action" id="mainForm" method="post">
 			<div class="right">
 				<div class="current">当前位置：<a href="javascript:void(0)" style="color:#6E6E6E;">内容管理</a> &gt; 内容列表</div>
 				<div class="rightCont">
@@ -17,13 +17,13 @@
 					<table class="tab1">
 						<tbody>
 							<tr>
-								<td width="90" align="right">演示字段1：</td>
+								<td width="90" align="right">指令名称：</td>
 								<td>
-									<input type="text" class="allInput" value=""/>
+									<input name="command" type="text" class="allInput" value="${command}"/>
 								</td>
-								<td width="90" align="right">演示字段2：</td>
+								<td width="90" align="right">描述：</td>
 								<td>
-									<input type="text" class="allInput" value=""/>
+									<input name="description" type="text" class="allInput" value="${description}"/>
 								</td>
 	                            <td width="85" align="right"><input type="submit" class="tabSub" value="查 询" /></td>
 	       					</tr>
