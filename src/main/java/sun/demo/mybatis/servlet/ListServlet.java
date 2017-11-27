@@ -7,65 +7,37 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
 
-import com.google.common.base.Strings;
+import sun.demo.mybatis.service.ListService;
 
-/**
- *
- */
+
 public class ListServlet extends HttpServlet {
     private String BACK_JSP = "/WEB-INF/jsp/back/";
 
+    /**
+     * 查询
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //super.doGet(req, resp);
+        //设置编码 支持中文
         req.setCharacterEncoding("utf-8");
         resp.setCharacterEncoding("utf-8");
-        try {
-            String command = req.getParameter("command");
-            String description = req.getParameter("description");
-            req.setAttribute("command",command);
-            req.setAttribute("description",description);
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/mybatis_demo?characterEncoding=utf8",
-                    "root", "123456");
-            StringBuilder sql = new StringBuilder("select ID, COMMAND, DESCRIPTION,CONTENT FROM message where 1=1");
+        //获取页面传值参数
+        String command = req.getParameter("command");
+        String description = req.getParameter("description");
+        //记录传值，让页面有显示
+        req.setAttribute("command",command);
+        req.setAttribute("description",description);
+        List<Message> list = new ListService().qtryueryMessageList(command,description);
+        req.setAttribute("msgList",list);
 
-            List<String> paramList = new ArrayList<String>();
-
-            if(!Strings.isNullOrEmpty(command)){
-                sql.append(" and COMMAND=?");
-                paramList.add(command);
-            }
-            if(!Strings.isNullOrEmpty(description)){
-                sql.append(" and DESCRIPTION like '%' ? '%'");
-                paramList.add(description);
-            }
-            PreparedStatement statement = connection.prepareStatement(sql.toString());
-            for (int i = 0; i < paramList.size(); i++) {
-                statement.setString(i+1,paramList.get(i));
-            }
-            ResultSet resultSet = statement.executeQuery();
-            ArrayList<Message> list = new ArrayList<Message>();
-            while(resultSet.next()){
-                Message message = new Message();
-                list.add(message);
-                message.setId(resultSet.getString("ID"));
-                message.setCommand(resultSet.getString("COMMAND"));
-                message.setContent(resultSet.getString("CONTENT"));
-                message.setDescription(resultSet.getString("DESCRIPTION"));
-            }
-            System.out.println("msglist.size="+list.size());
-            req.setAttribute("msgList",list);
-
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        //跳转回页面
         req.getRequestDispatcher(BACK_JSP + "list.jsp").forward(req,resp);
     }
 
