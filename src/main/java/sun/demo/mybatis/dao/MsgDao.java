@@ -55,23 +55,59 @@ public class MsgDao {
         return list;
     }
 
-    public List<Message> qtryueryMessageList(String command,String description) {
+    public List<Message> queryMessageList(String command, String description) {
         DbAccess dbAccess = new DbAccess();
         SqlSession sqlSession = null;
+        List<Message> list = new ArrayList<Message>();
         try {
             sqlSession = dbAccess.getSqlSession();
+            Message message = new Message();
+            message.setCommand(command);
+            message.setDescription(description);
+            list = sqlSession.selectList("Message.queryMessageList",message);
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
             if(sqlSession!=null)
                 sqlSession.close();
         }
-        return null;
+        return list;
+    }
+
+    public void deleteOne(int id){
+        DbAccess dbAccess = new DbAccess();
+        SqlSession sqlSession = null;
+        try {
+            sqlSession = dbAccess.getSqlSession();
+            sqlSession.delete("Message.deleteOne",id);
+            sqlSession.commit();//及时提交
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if(sqlSession!=null)
+                sqlSession.close();
+        }
+
+    }
+
+    public void deleteBatch(List<Integer> idList){
+        DbAccess dbAccess = new DbAccess();
+        SqlSession sqlSession = null;
+        try {
+            sqlSession = dbAccess.getSqlSession();
+            sqlSession.delete("Message.deleteBatch",idList);
+            sqlSession.commit();//及时提交
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if(sqlSession!=null)
+                sqlSession.close();
+        }
     }
 
     public static void main(String[] args) {
         MsgDao msgDao = new MsgDao();
-        msgDao.qtryueryMessageList("","");
-
+        List<Message> list = msgDao.queryMessageList("查看", "");
+        System.out.println(list.size());
     }
 }

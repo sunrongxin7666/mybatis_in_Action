@@ -17,6 +17,25 @@
     <url-pattern>/list.action</url-pattern>
   </servlet-mapping>
 
+
+  <servlet>
+  <servlet-name>DeleteOneServlet</servlet-name>
+  <servlet-class>sun.demo.mybatis.servlet.DeleteOneServlet</servlet-class>
+</servlet>
+  <servlet-mapping>
+    <servlet-name>DeleteOneServlet</servlet-name>
+    <url-pattern>/DeleteOneServlet.action</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>DeleteBatchServlet</servlet-name>
+    <servlet-class>sun.demo.mybatis.servlet.DeleteBatchServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DeleteBatchServlet</servlet-name>
+    <url-pattern>/DeleteBatchServlet.action</url-pattern>
+  </servlet-mapping>
+
   <jsp-config>
     <jsp-property-group>
       <url-pattern>*.jsp</url-pattern>

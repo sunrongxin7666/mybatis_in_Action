@@ -7,13 +7,15 @@
 		<meta http-equiv="X-UA-Compatible"content="IE=9; IE=8; IE=7; IE=EDGE" />
 		<title>内容列表页面-SUN</title>
 		<link href="\css\all.css" rel="stylesheet" type="text/css" />
+		<script src="/js/jquery-1.8.0.min.js"></script>
+		<script type="application/javascript" src="/js/back/list.js"></script>
 	</head>
 	<body style="background: #e1e9eb;">
 		<form action="list.action" id="mainForm" method="post">
 			<div class="right">
 				<div class="current">当前位置：<a href="javascript:void(0)" style="color:#6E6E6E;">内容管理</a> &gt; 内容列表</div>
 				<div class="rightCont">
-					<p class="g_title fix">内容列表 <a class="btn03" href="#">新 增</a>&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn03" href="#">删 除</a></p>
+					<p class="g_title fix">内容列表 <a class="btn03" href="#">新 增</a>&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn03" href="javascript:deleteBatch()">删 除</a></p>
 					<table class="tab1">
 						<tbody>
 							<tr>
@@ -51,7 +53,7 @@
 										<td>${msg.description}</td>
 										<td>
 											<a href="#">修改</a>&nbsp;&nbsp;&nbsp;
-											<a href="#">删除</a>
+											<a href="DeleteOneServlet.action?id=${msg.id}">删除</a>
 										</td>
 									</tr>
 								</c:forEach>

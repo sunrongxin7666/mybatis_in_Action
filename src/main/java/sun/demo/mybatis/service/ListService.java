@@ -8,6 +8,6 @@ import java.util.List;
 public class ListService {
     public List<Message> qtryueryMessageList(String command, String description) {
         MsgDao msgDao = new MsgDao();
-        return msgDao.qtryueryMessageList(command,description);
+        return msgDao.queryMessageList(command,description);
     }
 }
