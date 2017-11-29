@@ -28,12 +28,30 @@
   </servlet-mapping>
 
   <servlet>
-    <servlet-name>DeleteBatchServlet</servlet-name>
-    <servlet-class>sun.demo.mybatis.servlet.DeleteBatchServlet</servlet-class>
-  </servlet>
+  <servlet-name>DeleteBatchServlet</servlet-name>
+  <servlet-class>sun.demo.mybatis.servlet.DeleteBatchServlet</servlet-class>
+</servlet>
   <servlet-mapping>
     <servlet-name>DeleteBatchServlet</servlet-name>
     <url-pattern>/DeleteBatchServlet.action</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+  <servlet-name>TalkServlet</servlet-name>
+  <servlet-class>sun.demo.mybatis.servlet.TalkServlet</servlet-class>
+</servlet>
+  <servlet-mapping>
+    <servlet-name>TalkServlet</servlet-name>
+    <url-pattern>/talk.action</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>AutoReplyServlet</servlet-name>
+    <servlet-class>sun.demo.mybatis.servlet.AutoReplyServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AutoReplyServlet</servlet-name>
+    <url-pattern>/AutoReplyServlet.action</url-pattern>
   </servlet-mapping>
 
   <jsp-config>

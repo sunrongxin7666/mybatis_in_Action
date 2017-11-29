@@ -21,6 +21,7 @@ function send() {
 		return;
 	}
 	$.ajax({
+		//必须要有前缀
 		url : $("#basePath").val() + "AutoReplyServlet.action",
 		type : "POST",
 		dataType : "text",
@@ -162,7 +163,7 @@ function render() {
 function appendDialog(myClass,name,content) {
 	var div = "";
 	div += "<div class='" + myClass + "'>";
-	div += "<div class='user'><img src='" + $("#basePath").val() + "resources/images/thumbs/" + myClass + ".jpg'/>" + name + "</div>";
+	div += "<div class='user'><img src='" +  "/images/thumbs/" + myClass + ".jpg'/>" + name + "</div>";
 	div += "<div class='talk_recordtextbg'>&nbsp;</div>";
 	div += "<div class='talk_recordtext'>";
 	div += "<h3>" + content + "</h3>";
