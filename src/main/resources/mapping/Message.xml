@@ -22,7 +22,7 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <!--suppress MybatisMapperXmlInspection -->
-<mapper namespace="Message">
+<mapper namespace="sun.demo.mybatis.dao.IMessage">
 
   <resultMap type="sun.demo.mybatis.bean.Message" id="MessageResult">
     <id column="ID" jdbcType="INTEGER" property="id"/>

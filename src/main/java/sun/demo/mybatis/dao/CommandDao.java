@@ -28,7 +28,6 @@ public class CommandDao {
 			// 通过sqlSession执行SQL语句
 			commandList = sqlSession.selectList("Command.queryCommandList", command);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			if(sqlSession != null) {

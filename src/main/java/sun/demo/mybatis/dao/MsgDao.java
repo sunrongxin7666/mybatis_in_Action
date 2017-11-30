@@ -64,7 +64,10 @@ public class MsgDao {
             Message message = new Message();
             message.setCommand(command);
             message.setDescription(description);
-            list = sqlSession.selectList("Message.queryMessageList",message);
+            //这样执行SQL有硬编码之嫌，容易出错，而参数的参数和得到的结果的类型也不能
+            //list = sqlSession.selectList("Message.queryMessageList",message);
+            IMessage iMessage = sqlSession.getMapper(IMessage.class);
+            list = iMessage.queryMessageList(message);
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
