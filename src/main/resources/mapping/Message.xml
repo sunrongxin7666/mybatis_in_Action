@@ -20,8 +20,7 @@
 <!DOCTYPE mapper
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
-<!--suppress MybatisMapperXmlInspection -->
+<!--接口的全名称就是命名空间-->
 <mapper namespace="sun.demo.mybatis.dao.IMessage">
 
   <resultMap type="sun.demo.mybatis.bean.Message" id="MessageResult">
@@ -31,6 +30,7 @@
     <result column="CONTENT" jdbcType="VARCHAR" property="content"/>
   </resultMap>
 
+    <!--接口中定义的方法名就是ID-->
     <select id="queryMessageList" parameterType="sun.demo.mybatis.bean.Message" resultMap="MessageResult">
         select <include refid="columns"/> from MESSAGE
         <where>
