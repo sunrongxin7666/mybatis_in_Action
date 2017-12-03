@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -55,6 +56,29 @@ public class MsgDao {
         return list;
     }
 
+
+    /**
+     * 根据查询条件查询消息列表
+     */
+    public List<Message> queryMessageList(Map<String,Object> parameter) {
+        DbAccess dbAccess = new DbAccess();
+        List<Message> messageList = new ArrayList<Message>();
+        SqlSession sqlSession = null;
+        try {
+            sqlSession = dbAccess.getSqlSession();
+            // 通过sqlSession执行SQL语句
+            IMessage imessage = sqlSession.getMapper(IMessage.class);
+            messageList = imessage.queryMessageList(parameter);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } finally {
+            if(sqlSession != null) {
+                sqlSession.close();
+            }
+        }
+        return messageList;
+    }
     public List<Message> queryMessageList(String command, String description) {
         DbAccess dbAccess = new DbAccess();
         SqlSession sqlSession = null;
@@ -67,7 +91,7 @@ public class MsgDao {
             //这样执行SQL有硬编码之嫌，容易出错，而参数的参数和得到的结果的类型也不能
             //list = sqlSession.selectList("Message.queryMessageList",message);
             IMessage iMessage = sqlSession.getMapper(IMessage.class);
-            list = iMessage.queryMessageList(message);
+            list = iMessage.queryMessageListByMsg(message);
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -75,6 +99,47 @@ public class MsgDao {
                 sqlSession.close();
         }
         return list;
+    }
+
+    public int count(Message message) {
+        DbAccess dbAccess = new DbAccess();
+        SqlSession sqlSession = null;
+        int result = 0;
+        try {
+            sqlSession = dbAccess.getSqlSession();
+            // 通过sqlSession执行SQL语句
+            IMessage imessage = sqlSession.getMapper(IMessage.class);
+            result = imessage.count(message);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if(sqlSession != null) {
+                sqlSession.close();
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 根据查询条件分页查询消息列表
+     */
+    public List<Message> queryMessageListByPage(Map<String,Object> parameter) {
+        DbAccess dbAccess = new DbAccess();
+        List<Message> messageList = new ArrayList<Message>();
+        SqlSession sqlSession = null;
+        try {
+            sqlSession = dbAccess.getSqlSession();
+            // 通过sqlSession执行SQL语句
+            IMessage imessage = sqlSession.getMapper(IMessage.class);
+            messageList = imessage.queryMessageListByPage(parameter);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if(sqlSession != null) {
+                sqlSession.close();
+            }
+        }
+        return messageList;
     }
 
     public void deleteOne(int id){

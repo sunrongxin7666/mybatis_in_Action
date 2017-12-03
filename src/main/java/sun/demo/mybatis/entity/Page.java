@@ -72,6 +72,7 @@ public class Page {
 
 	public void setCurrentPage(int currentPage) {
 		this.currentPage = currentPage;
+		//this.count();
 	}
 
 	public int getTotalPage() {

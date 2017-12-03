@@ -8,7 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+import java.util.regex.Pattern;
 
+import sun.demo.mybatis.entity.Page;
 import sun.demo.mybatis.service.ListService;
 
 
@@ -31,11 +33,22 @@ public class ListServlet extends HttpServlet {
         //获取页面传值参数
         String command = req.getParameter("command");
         String description = req.getParameter("description");
+        String currentPage = req.getParameter("currentPage");
+        //创建分页
+        Page page = new Page();
+        Pattern pattern = Pattern.compile("[0-9]{1,9}");
+        if(currentPage == null||!pattern.matcher(currentPage).matches()){//
+            page.setCurrentPage(1);
+        } else {
+            page.setCurrentPage(Integer.valueOf(currentPage));
+        }
+
         //记录传值，让页面有显示
         req.setAttribute("command",command);
         req.setAttribute("description",description);
-        List<Message> list = new ListService().qtryueryMessageList(command,description);
+        List<Message> list = new ListService().queryMessageList(command,description,page);
         req.setAttribute("msgList",list);
+        req.setAttribute("page",page);
 
         //跳转回页面
         req.getRequestDispatcher(BACK_JSP + "list.jsp").forward(req,resp);

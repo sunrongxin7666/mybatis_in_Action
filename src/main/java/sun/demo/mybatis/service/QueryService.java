@@ -6,9 +6,12 @@ import sun.demo.mybatis.bean.CommandContent;
 import sun.demo.mybatis.bean.Message;
 import sun.demo.mybatis.dao.CommandDao;
 import sun.demo.mybatis.dao.MsgDao;
+import sun.demo.mybatis.entity.Page;
 import sun.demo.mybatis.util.Iconst;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -68,4 +71,6 @@ public class QueryService {
 		}
 		return Iconst.NO_MATCHING_CONTENT;
 	}
+
+
 }

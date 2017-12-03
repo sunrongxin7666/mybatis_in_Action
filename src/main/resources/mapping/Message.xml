@@ -31,7 +31,7 @@
   </resultMap>
 
     <!--接口中定义的方法名就是ID-->
-    <select id="queryMessageList" parameterType="sun.demo.mybatis.bean.Message" resultMap="MessageResult">
+    <select id="queryMessageListByMsg" parameterType="sun.demo.mybatis.bean.Message" resultMap="MessageResult">
         select <include refid="columns"/> from MESSAGE
         <where>
           <if test="command != null and !&quot;&quot;.equals(command.trim())">
@@ -43,18 +43,44 @@
         </where>
     </select>
 
-  <!--<select id="queryMessageList" parameterType="sun.demo.mybatis.bean.Message" resultMap="MessageResult">-->
-    <!--select <include refid="columns"/> from MESSAGE-->
-    <!--<where>-->
-    	<!--<if test="command != null and !&quot;&quot;.equals(command.trim())">-->
-	    	<!--and COMMAND=#{command}-->
-	    <!--</if>-->
-	    <!--<if test="description != null and !&quot;&quot;.equals(description.trim())">-->
-	    	<!--and DESCRIPTION like '%' #{description} '%'-->
-	    <!--</if>-->
-    <!--</where>-->
-  <!--</select>-->
-  
+    <select id="queryMessageList" parameterType="java.util.Map" resultMap="MessageResult">
+        select <include refid="columns"/> from MESSAGE
+        <where>
+            <if test="message.command != null and !&quot;&quot;.equals(message.command.trim())">
+                and COMMAND=#{message.command}
+            </if>
+            <if test="message.description != null and !&quot;&quot;.equals(message.description.trim())">
+                and DESCRIPTION like '%' #{message.description} '%'
+            </if>
+        </where>
+        order by ID limit #{page.dbIndex},#{page.dbNumber}
+    </select>
+
+    <select id="count" resultType="java.lang.Integer" parameterType="sun.demo.mybatis.bean.Message">
+        SELECT count(*) FROM MESSAGE
+        <where>
+            <if test="command != null and !&quot;&quot;.equals(command.trim())">
+                and COMMAND=#{command}
+            </if>
+            <if test="description != null and !&quot;&quot;.equals(description.trim())">
+                and DESCRIPTION like '%' #{description} '%'
+            </if>
+        </where>
+    </select>
+
+    <select id="queryMessageListByPage" parameterType="java.util.Map" resultMap="MessageResult">
+        select <include refid="columns"/> from MESSAGE
+        <where>
+            <if test="message.command != null and !&quot;&quot;.equals(message.command.trim())">
+                and COMMAND=#{message.command}
+            </if>
+            <if test="message.description != null and !&quot;&quot;.equals(message.description.trim())">
+                and DESCRIPTION like '%' #{message.description} '%'
+            </if>
+        </where>
+        order by ID
+    </select>
+
   <sql id="columns">ID,COMMAND,DESCRIPTION,CONTENT</sql>
 
   <delete id="deleteOne" parameterType="int">
